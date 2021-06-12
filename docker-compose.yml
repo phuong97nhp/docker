@@ -1,0 +1,74 @@
+version: '3.7'
+networks: 
+  docker_network: 
+    driver: bridge
+services:
+  php:
+    build:
+      context: ./php
+      dockerfile: Dockerfile
+    ports:
+      - "9000:9000"
+    container_name: docker_php
+    working_dir: "/var/www/cpn"
+    networks: 
+      - docker_network
+    volumes: 
+      - "../php/:/var/www/cpn"
+  nginx:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    ports:
+      - "80:80"
+    container_name: docker_nginx
+    working_dir: "/var/www/cpn"
+    networks: 
+      - docker_network
+    volumes: 
+      - "../php/:/var/www/cpn"
+      - "./nginx/:/etc/nginx/conf.d/"
+  mariadb:
+    build:
+      context: ./mariadb
+      dockerfile: Dockerfile
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: example
+    ports:
+      - "3306:3306"
+    container_name: docker_mariadb
+    volumes: 
+      - "./mariadb/data-mariadb:/var/lib/mysql"
+    networks: 
+      - docker_network
+  redis:
+    build:
+      context: ./redis
+      dockerfile: Dockerfile
+    volumes: 
+      - "./redis/cache:/data"
+    container_name: docker_redis
+    restart: always
+    networks: 
+      - docker_network
+    ports:
+      - "6379:6379"      
+  sqlserver:
+    build:
+      context: ./sqlserver
+      dockerfile: Dockerfile
+    hostname: 'sqlserver'
+    environment:
+      ACCEPT_EULA: Y
+      MSSQL_SA_PASSWORD: Admin@12345
+    ports:
+      - "1433:1433"
+    container_name: docker_sqlserver
+    networks: 
+      - docker_network
+    volumes:
+      - "ms-sqlserver-data:/var/opt/mssql"
+volumes:
+  ms-sqlserver-data:
+    driver: local
