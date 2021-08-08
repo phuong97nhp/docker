@@ -1,6 +1,6 @@
 version: '3.7'
 networks: 
-  docker_network: 
+  az_docker_network: 
     driver: bridge
 services:
   php:
@@ -12,7 +12,7 @@ services:
     container_name: docker_php
     working_dir: "/var/www/muonphuong"
     networks: 
-      - docker_network
+      - az_docker_network
     volumes: 
       - "../:/var/www/muonphuong"
   nginx:
@@ -24,7 +24,7 @@ services:
     container_name: docker_nginx
     working_dir: "/var/www/muonphuong"
     networks: 
-      - docker_network
+      - az_docker_network
     volumes: 
       - "../:/var/www/muonphuong"
       - "./nginx/:/etc/nginx/conf.d/"
@@ -51,7 +51,7 @@ services:
     container_name: docker_redis
     restart: always
     networks: 
-      - docker_network
+      - az_docker_network
     ports:
       - "6379:6379"      
   sqlserver:
@@ -66,7 +66,7 @@ services:
       - "1433:1433"
     container_name: docker_sqlserver
     networks: 
-      - docker_network
+      - az_docker_network
     volumes:
       - "ms-sqlserver-data:/var/opt/mssql"
 volumes:
