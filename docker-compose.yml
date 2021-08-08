@@ -10,11 +10,11 @@ services:
     ports:
       - "9000:9000"
     container_name: docker_php
-    working_dir: "/var/www/cpn"
+    working_dir: "/var/www/muonphuong"
     networks: 
       - docker_network
     volumes: 
-      - "../php/:/var/www/cpn"
+      - "../:/var/www/muonphuong"
   nginx:
     build:
       context: ./nginx
@@ -22,11 +22,11 @@ services:
     ports:
       - "80:80"
     container_name: docker_nginx
-    working_dir: "/var/www/cpn"
+    working_dir: "/var/www/muonphuong"
     networks: 
       - docker_network
     volumes: 
-      - "../php/:/var/www/cpn"
+      - "../:/var/www/muonphuong"
       - "./nginx/:/etc/nginx/conf.d/"
   mariadb:
     build:
