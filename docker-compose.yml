@@ -34,14 +34,14 @@ services:
       dockerfile: Dockerfile
     restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: example
+      MYSQL_ROOT_PASSWORD: Az#86*123
     ports:
       - "3306:3306"
-    container_name: docker_mariadb
-    volumes: 
+    container_name: az_docker_mariadb
+    volumes:
       - "./mariadb/data-mariadb:/var/lib/mysql"
-    networks: 
-      - docker_network
+    networks:
+      - az_docker_network
   redis:
     build:
       context: ./redis
